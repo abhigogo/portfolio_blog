@@ -1,0 +1,43 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <p><h1>{{ post.title }}</h1></p>
+        {% if post.published_date %}
+            <p>Published On : {{ post.published_date }}</p>
+        {% endif %}
+        <p>{{ post.text }}</p>
+        {% if user.is_authenticated %}
+            <a href="{% url 'postEdit' pk=post.pk %}"><button>Edit</button></a>
+            <a href="{% url 'postRemove' pk=post.pk %}"><button>Remove</button></a>
+            {% if not post.published_date %}
+                <a href="{% url 'postPublish' pk=post.pk %}"><button>Publish</button></a>
+            {% endif %}
+        {% endif %}
+
+        <hr>
+
+        <div class="commentSection">
+            <p><a href="{% url 'addComment' pk=post.pk %}"><button>Comment</button></a></p>
+
+            <br>
+
+            {% for comment in post.comments.all %}
+                {% if user.is_authenticated or comment.approved_comment %}
+                    <p>{{ comment.text }}</p>
+                    <p>Commented By : {{ comment.author }}</p>
+                    {% if not comment.approved_comment %}
+                        <a href="{% url 'approveComment' pk=comment.pk %}"><button type="submit">Approve</button></a>
+                        <a href="{% url 'deleteComment' pk=comment.pk %}"><input type="submit" class="btn btn-danger" value="Remove"></a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+
+        </div>
+
+
+
+    </div>
+
+{% endblock %}

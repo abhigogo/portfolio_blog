@@ -1,0 +1,21 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+
+    <div class="container" id="loginform">
+        <form action="{% url 'login' %}" method="POST">
+            {% csrf_token %}
+            <label for="username" id="logintext" style="color:white;">Username : </label>
+            <input type="text" id="username" name="username">
+            <br>
+            <br>
+            <br>
+            <label for="password" id="logintext" style="color:white;">Password : </label>
+            <input type="password" id="password" name="password">
+            <br>
+            <br>
+            <input type="submit" class="btn btn-primary" value="LogIn">
+        </form>
+    </div>
+
+{% endblock %}
